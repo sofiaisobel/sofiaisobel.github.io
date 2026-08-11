@@ -20,6 +20,31 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // ---- veil ---------
+  var veil = document.querySelector('.page-veil');
+  if (veil) {
+    var FADE_MS = 380;
+    document.querySelectorAll('a[href]').forEach(function (link) {
+      var href = link.getAttribute('href');
+      var isInternalPage = href &&
+        href.charAt(0) !== '#' &&
+        href.indexOf('mailto:') !== 0 &&
+        href.indexOf('tel:') !== 0 &&
+        href.indexOf('http') !== 0 &&
+        link.target !== '_blank';
+      if (!isInternalPage) return;
+      link.addEventListener('click', function (e) {
+        if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        e.preventDefault();
+        veil.classList.add('is-active');
+        window.setTimeout(function () { window.location.href = href; }, FADE_MS);
+      });
+    });
+    window.addEventListener('pageshow', function (e) {
+      if (e.persisted) veil.classList.remove('is-active');
+    });
+  }
+
   // ---- footer year ----
   document.querySelectorAll('[data-year]').forEach(function (el) {
     el.textContent = new Date().getFullYear();

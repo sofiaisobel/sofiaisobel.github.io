@@ -71,6 +71,17 @@ ul, ol { list-style: none; }
 }
 .visually-hidden:focus { left: 1rem; top: 1rem; }
 
+.page-veil {
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.38s ease;
+}
+.page-veil.is-active { opacity: 1; }
+
 :focus-visible {
   outline: 2px solid var(--black);
   outline-offset: 3px;
@@ -378,12 +389,16 @@ section:first-of-type { padding-top: 0; }
   .about-grid { grid-template-columns: 1fr; }
 }
 .about-grid .bio p { margin-bottom: 1.3rem; max-width: 62ch; }
-.about-grid .bio p:first-child::first-letter {
-  font-size: 3.4rem;
+
+/* Lead-in word: CSS has no ::first-word selector (only ::first-letter),
+   so the opening word is wrapped in <span class="lead-word"> by hand in
+   the HTML and styled here. */
+.lead-word {
   font-weight: 700;
-  float: left;
-  line-height: 0.8;
-  margin: 0.1rem 0.5rem 0 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 1.5rem;
+  line-height: 1;
 }
 
 .fact-list {
